@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'inicio.dart';
-import 'historia.dart';
-import 'servicios.dart';
-import 'noticias.dart';
-import 'videos.dart';
-import 'albergues.dart';
-import 'mapa_albergues.dart';
-import 'medidas_preventivas.dart';
-import 'miembros.dart';
-import 'voluntario.dart';
-import 'acerca_de.dart';
+import 'pages/inicio.dart';
+import 'pages/historia.dart';
+import 'pages/servicios.dart';
+import 'pages/noticias.dart';
+import 'pages/videos.dart';
+import 'pages/albergues.dart';
+import 'pages/mapa_albergues.dart';
+import 'pages/medidas_preventivas.dart';
+import 'pages/miembros.dart';
+import 'pages/voluntario.dart';
+import 'pages/acerca_de.dart';
 import 'iniciar_sesion.dart';
 
 void main() {
