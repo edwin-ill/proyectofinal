@@ -10,7 +10,7 @@ import 'pages/medidas_preventivas.dart';
 import 'pages/miembros.dart';
 import 'pages/voluntario.dart';
 import 'pages/acerca_de.dart';
-import 'iniciar_sesion.dart';
+import 'login/iniciar_sesion.dart';
 
 void main() {
   runApp(const MyApp());
