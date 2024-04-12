@@ -38,14 +38,25 @@ class Albergue {
 }
 
 class AlberguesScreen extends StatelessWidget {
+  const AlberguesScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Buscador de Albergues',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Albergues'),
       ),
-      home: AlbergueListScreen(),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AlbergueListScreen()),
+            );
+          },
+          child: Text('Ver todos los Albergues'),
+        ),
+      ),
     );
   }
 }
