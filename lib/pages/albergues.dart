@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:proyectofinal/widgets/custom_button.dart';
 
 class Albergue {
   final String ciudad;
@@ -42,26 +43,23 @@ class AlberguesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Albergues'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AlbergueListScreen()),
-            );
-          },
-          child: Text('Ver todos los Albergues'),
+    return MaterialApp(
+      title: 'Buscador de Albergues',
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFFFF7000), // orangeColor
+          titleTextStyle: TextStyle(color: Colors.white), // Title color
         ),
+        primaryColor: const Color(0xFFFFFFFF), // white
       ),
+      home: const AlbergueListScreen(),
     );
   }
 }
 
 class AlbergueListScreen extends StatefulWidget {
+  const AlbergueListScreen({super.key});
+
   @override
   _AlbergueListScreenState createState() => _AlbergueListScreenState();
 }
@@ -88,20 +86,14 @@ class _AlbergueListScreenState extends State<AlbergueListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Buscador de Albergues'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {},
-          ),
-        ],
+        title: const Text('Buscador de Albergues'),
       ),
       body: Center(
         child: FutureBuilder<List<Albergue>>(
           future: futureAlbergues,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             } else if (snapshot.hasError) {
               return Text("Error: ${snapshot.error}");
             } else if (snapshot.hasData) {
@@ -109,7 +101,7 @@ class _AlbergueListScreenState extends State<AlbergueListScreen> {
               return AlbergueListView(
                   albergues: albergues, searchController: _searchController);
             } else {
-              return Text("No se encontraron albergues.");
+              return const Text("No se encontraron albergues.");
             }
           },
         ),
@@ -143,7 +135,8 @@ class AlbergueListView extends StatefulWidget {
   final List<Albergue> albergues;
   final TextEditingController searchController;
 
-  AlbergueListView({required this.albergues, required this.searchController});
+  const AlbergueListView(
+      {required this.albergues, required this.searchController});
 
   @override
   _AlbergueListViewState createState() => _AlbergueListViewState();
@@ -173,11 +166,11 @@ class _AlbergueListViewState extends State<AlbergueListView> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: TextField(
             controller: widget.searchController,
             onChanged: (value) => filterAlbergues(value),
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Buscar Albergues',
               hintText:
                   'Ingrese el nombre de la ciudad o el edificio del albergue',
@@ -206,6 +199,17 @@ class _AlbergueListViewState extends State<AlbergueListView> {
             },
           ),
         ),
+        const SizedBox(height: 16),
+        CustomButton(
+          onPressed: () {
+            Navigator.popUntil(
+                context, ModalRoute.withName(Navigator.defaultRouteName));
+          },
+          color: const Color.fromARGB(255, 0, 76, 152), // blueColor
+          textColor: Colors.white,
+          text: 'Volver al Menú Principal',
+        ),
+        const SizedBox(height: 16),
       ],
     );
   }
@@ -214,7 +218,7 @@ class _AlbergueListViewState extends State<AlbergueListView> {
 class AlbergueDetailScreen extends StatelessWidget {
   final Albergue albergue;
 
-  AlbergueDetailScreen({required this.albergue});
+  const AlbergueDetailScreen({required this.albergue});
 
   @override
   Widget build(BuildContext context) {
@@ -223,7 +227,7 @@ class AlbergueDetailScreen extends StatelessWidget {
         title: Text(albergue.ciudad),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -234,12 +238,6 @@ class AlbergueDetailScreen extends StatelessWidget {
             Text('Capacidad: ${albergue.capacidad}'),
             Text('Latitud: ${albergue.lat}'),
             Text('Longitud: ${albergue.lng}'),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Volver'),
-            ),
           ],
         ),
       ),
