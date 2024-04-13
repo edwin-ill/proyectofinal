@@ -21,6 +21,12 @@ class CambiarPasswordScreen extends StatelessWidget {
             SizedBox(height: 20.0),
             TextFormField(
               decoration: InputDecoration(
+                 filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30.0),
+          borderSide: BorderSide.none,
+        ),
                 labelText: 'Contraseña Actual',
               ),
               obscureText: true,
@@ -28,6 +34,12 @@ class CambiarPasswordScreen extends StatelessWidget {
             SizedBox(height: 20.0),
             TextFormField(
               decoration: InputDecoration(
+                      filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30.0),
+          borderSide: BorderSide.none,
+        ),
                 labelText: 'Nueva Contraseña',
               ),
               obscureText: true,
@@ -35,6 +47,12 @@ class CambiarPasswordScreen extends StatelessWidget {
             SizedBox(height: 20.0),
             TextFormField(
               decoration: InputDecoration(
+                      filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30.0),
+          borderSide: BorderSide.none,
+        ),
                 labelText: 'Confirmar Nueva Contraseña',
               ),
               obscureText: true,

@@ -34,6 +34,12 @@ class _ReportarSituacionScreenState extends State<ReportarSituacionScreen> {
             TextFormField(
               controller: tituloController,
               decoration: InputDecoration(
+                      filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30.0),
+          borderSide: BorderSide.none,
+        ),
                 labelText: 'Título del evento o situación',
               ),
             ),
@@ -41,6 +47,12 @@ class _ReportarSituacionScreenState extends State<ReportarSituacionScreen> {
             TextFormField(
               controller: descripcionController,
               decoration: InputDecoration(
+                      filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30.0),
+          borderSide: BorderSide.none,
+        ),
                 labelText: 'Descripción completa',
               ),
               maxLines: 3,
@@ -60,6 +72,12 @@ class _ReportarSituacionScreenState extends State<ReportarSituacionScreen> {
             TextFormField(
               controller: ubicacionController,
               decoration: InputDecoration(
+                      filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30.0),
+          borderSide: BorderSide.none,
+        ),
                 labelText: 'Ubicación geográfica (latitud, longitud)',
               ),
             ),
