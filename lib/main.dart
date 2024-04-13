@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:proyectofinal/login/post_login/my_situations.dart';
+import 'package:proyectofinal/login/post_login/report_situation.dart';
 import 'pages/inicio.dart';
 import 'pages/historia.dart';
 import 'pages/servicios.dart';
@@ -41,6 +43,7 @@ class MyApp extends StatelessWidget {
         '/voluntario': (context) => VoluntarioScreen(),
         '/acerca_de': (context) => AcercaDeScreen(),
         '/iniciar_sesion': (context) => IniciarSesionScreen(),
+        '/my_situations':(context) => MySituations()
       },
     );
   }
@@ -120,12 +123,17 @@ class MainScreen extends StatelessWidget {
               text: 'Iniciar Sesión',
               route: '/iniciar_sesion',
             ),
+            MenuOption(
+              text: 'Mis Situaciones',
+              route: '/my_situations',
+            ),
           ],
         ),
       ),
-      body: const Center(
-        child: Text('Contenido de la pantalla principal.'),
-      ),
+      body: ReportSituation(),
+      // body: const Center(
+      //   child: Text('Contenido de la pantalla principal.'),
+      // ),
     );
   }
 }
