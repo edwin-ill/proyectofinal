@@ -1,10 +1,41 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:proyectofinal/models/servicios.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
 
-class ServiciosScreen extends StatelessWidget {
+
+class ServiciosScreen extends StatefulWidget {
   const ServiciosScreen({super.key});
- 
+
+  @override
+  State<ServiciosScreen> createState() => _ServiciosScreenState();
+}
+
+class _ServiciosScreenState extends State<ServiciosScreen> {
+  late Future<List<Servicios>> listServices;
+
+  // ignore: unused_element
+  Future<List<Servicios>> _getServices() async {
+    final response = await http.get(Uri.parse('https://adamix.net/defensa_civil/def/servicios.php'));
+    List<Servicios> servicios = [];
+
+    if (response.statusCode == 200) {
+      String body = utf8.decode(response.bodyBytes);
+      final jsonData = jsonDecode(body);
+
+      for(var servicio in jsonData["datos"]){
+        servicios.add(Servicios(servicio["nombre"], servicio["descripcion"], servicio["foto"]));
+        
+      }
+
+      return servicios;
+    } else {
+      // Handle error based on status code
+      throw Exception("Error de conexion");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,17 +48,10 @@ class ServiciosScreen extends StatelessWidget {
     );
   }
 
-
-  Future<List<Servicios>> _listServices;
-  Future<List<Servicios>> _getServices() async{
-    final response = await http.get(
-    Uri.parse("https://reqres.in/api/users"),
-    headers: {
-    "Content-Type": "application/json",
-    },
-    );
-    Map obj = jsonDecode(response.body);
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+   listServices = _getServices();
   }
-
 }
-
