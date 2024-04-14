@@ -22,9 +22,11 @@ class _ReportSituationState extends State<ReportSituation> {
     setState(() {
       isVisible = true;
       Timer(const Duration(seconds: 2), () {
-        setState(() {
-          isVisible = false;
-        });
+        if (mounted) {
+          setState(() {
+            isVisible = false;
+          });
+        }
       });
     });
   }
@@ -87,6 +89,11 @@ class _ReportSituationState extends State<ReportSituation> {
     setState(() {
       reports = retrievedTask;
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override

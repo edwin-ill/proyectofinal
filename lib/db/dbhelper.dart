@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:path/path.dart';
 import 'package:proyectofinal/db/report.dart';
+import 'package:proyectofinal/db/user.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DbHelper {
@@ -12,15 +13,25 @@ class DbHelper {
 
   DbHelper._internal();
 
+  bool? hasUser;
+
   Future<Database> get database async {
     if (_database != null) return _database!;
-    _database = await initDatabase();
+    _database = await _initDatabase();
     return _database!;
   }
 
-  Future<Database> initDatabase() async {
+  Future<Database> _initDatabase() async {
     String path = join(await getDatabasesPath(), 'civil_defense.db');
-    return await openDatabase(path, version: 1, onCreate: _createDb);
+    Database civilDefenseDB =
+        await openDatabase(path, version: 1, onCreate: _createDb);
+    bool hasUser = await hasUsers(civilDefenseDB);
+    // Insertar usuarios por defecto solo si no existen usuarios
+    if (hasUser == false) {
+      User admin = User(id: 0, name: 'admin', password: 'admin');
+      await civilDefenseDB.insert('users', admin.toMap());
+    }
+    return civilDefenseDB;
   }
 
   void _createDb(Database db, int version) async {
@@ -35,6 +46,14 @@ class DbHelper {
         photo TEXT,
         state INTEGER,
         feedback TEXT
+      )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        password TEXT
       )
     ''');
   }
@@ -52,5 +71,27 @@ class DbHelper {
   Future<List<Map<String, dynamic>>> getReports() async {
     Database db = await database;
     return await db.query('report');
+  }
+
+  Future<int> insertUser(User user) async {
+    Database db = await database;
+    return await db.insert('users', user.toMap());
+  }
+
+  Future<int> deleteUser(int id) async {
+    Database db = await database;
+    return await db.delete('users', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<List<Map<String, dynamic>>> getUser(User user) async {
+    Database db = await database;
+    return await db.query('users',
+      where: 'name = ? AND password = ?',
+      whereArgs: [user.name, user.password],);
+  }
+
+  Future<bool> hasUsers(Database db) async {
+    List<Map<String, dynamic>> users = await db.query('users');
+    return users.isNotEmpty;
   }
 }

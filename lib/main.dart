@@ -28,9 +28,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/',
+      initialRoute: '/iniciar_sesion',
       routes: {
-        '/': (context) => MainScreen(),
         '/inicio': (context) => InicioScreen(),
         '/historia': (context) => HistoriaScreen(),
         '/servicios': (context) => ServiciosScreen(),
@@ -43,14 +42,16 @@ class MyApp extends StatelessWidget {
         '/voluntario': (context) => VoluntarioScreen(),
         '/acerca_de': (context) => AcercaDeScreen(),
         '/iniciar_sesion': (context) => IniciarSesionScreen(),
-        '/my_situations':(context) => MySituations()
+        '/my_situations': (context) => MySituations(),
+        '/report_situation': (context) => ReportSituation()
       },
     );
   }
 }
 
 class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
+  final bool isLogged;
+  const MainScreen({super.key, required this.isLogged});
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +62,8 @@ class MainScreen extends StatelessWidget {
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
-          children: const [
-            DrawerHeader(
+          children: [
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
@@ -74,66 +75,69 @@ class MainScreen extends StatelessWidget {
                 ),
               ),
             ),
-            MenuOption(
+            const MenuOption(
               text: 'Inicio',
               route: '/inicio',
             ),
-            MenuOption(
+            const MenuOption(
               text: 'Historia',
               route: '/historia',
             ),
-            MenuOption(
+            const MenuOption(
               text: 'Servicios',
               route: '/servicios',
             ),
-            MenuOption(
+            const MenuOption(
               text: 'Noticias',
               route: '/noticias',
             ),
-            MenuOption(
+            const MenuOption(
               text: 'Videos',
               route: '/videos',
             ),
-            MenuOption(
+            const MenuOption(
               text: 'Albergues',
               route: '/albergues',
             ),
-            MenuOption(
+            const MenuOption(
               text: 'Mapa de Albergues',
               route: '/mapa_albergues',
             ),
-            MenuOption(
+            const MenuOption(
               text: 'Medidas Preventivas',
               route: '/medidas_preventivas',
             ),
-            MenuOption(
+            const MenuOption(
               text: 'Miembros',
               route: '/miembros',
             ),
-            MenuOption(
+            const MenuOption(
               text: 'Quiero ser Voluntario',
               route: '/voluntario',
             ),
-            Divider(),
-            MenuOption(
+            const Divider(),
+            const MenuOption(
               text: 'Acerca de',
               route: '/acerca_de',
             ),
-            MenuOption(
-              text: 'Iniciar Sesión',
-              route: '/iniciar_sesion',
-            ),
-            MenuOption(
-              text: 'Mis Situaciones',
-              route: '/my_situations',
-            ),
+            isLogged
+                ? const MenuOption(
+                    text: 'Mis Situaciones',
+                    route: '/my_situations',
+                  )
+                : const ListTile(title: Text('Campo no disponible')),
+            isLogged
+                ? const MenuOption(
+                    text: 'Reportar Situación',
+                    route: '/report_situation',
+                  )
+                : const ListTile(title: Text('Campo no disponible')),
           ],
         ),
       ),
-      body: ReportSituation(),
-      // body: const Center(
-      //   child: Text('Contenido de la pantalla principal.'),
-      // ),
+      body: const Center(
+        child: Text('Contenido de la pantalla principal.'),
+      ),
     );
   }
 }
