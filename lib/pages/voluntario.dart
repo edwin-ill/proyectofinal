@@ -77,7 +77,7 @@ class _VoluntarioScreenState extends State<VoluntarioScreen> {
           'Quiero ser Voluntario 💪',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: const Color(0xFFFF7000), // Orange color
+        backgroundColor: const Color(0xFFFF7000),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
