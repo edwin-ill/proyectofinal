@@ -1,40 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-//import 'package:proyectofinal/pages/detalles_situacion_screen.dart';
-import 'package:proyectofinal/pages/mis_situaciones_screen.dart';
-
-/*class SituacionCard extends StatelessWidget {
-  final Situacion situacion;
-
-  SituacionCard({required this.situacion});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        title: Text(situacion.titulo),
-        subtitle: Text(situacion.fecha),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DetallesSituacionScreen(situacion: situacion),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}*/
+import 'package:proyectofinal/db/report.dart';
 
 class SituacionCard extends StatelessWidget {
-  final Situacion situacion;
+  final Report report;
   final Function() onTap;
 
   const SituacionCard({
-    Key? key,
-    required this.situacion,
+    super.key,
+    required this.report,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +24,16 @@ class SituacionCard extends StatelessWidget {
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(4.0)),
-              child: Image.network(
-                situacion.foto, // URL de la imagen
-                fit: BoxFit.cover,
-                height: 150, // Altura de la imagen
+              child: Image.memory(
+                base64Decode(report.photo.toString()),
+                width: 400,
+                height: 350,
               ),
             ),
             ListTile(
-              title: Text(situacion.titulo),
-              subtitle: Text(situacion.fecha +' | '+ situacion.estado),
-              trailing: Icon(Icons.arrow_forward),
+              title: Text(report.title),
+              subtitle: Text('${report.date} | ${report.state == 1 ? 'Resuelto': 'En proceso'}'),
+              trailing: const Icon(Icons.arrow_forward),
             ),
           ],
         ),

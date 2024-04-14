@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proyectofinal/login/post_login/my_situations.dart';
-import 'package:proyectofinal/login/post_login/report_situation.dart';
+import 'package:proyectofinal/pages/reportar_situacion_screen.dart';
 import 'pages/inicio.dart';
 import 'pages/historia.dart';
 import 'pages/servicios.dart';
@@ -43,7 +43,8 @@ class MyApp extends StatelessWidget {
         '/acerca_de': (context) => AcercaDeScreen(),
         '/iniciar_sesion': (context) => IniciarSesionScreen(),
         '/my_situations': (context) => MySituations(),
-        '/report_situation': (context) => ReportSituation()
+        '/report_situation': (context) => ReportarSituacionScreen()
+
       },
     );
   }

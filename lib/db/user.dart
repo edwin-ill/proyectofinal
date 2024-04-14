@@ -10,7 +10,7 @@ class User {
     return User(
         id: eventoMap['id'],
         name: eventoMap['name'],
-        password: eventoMap['description']);
+        password: eventoMap['password']);
   }
 
   Map<String, dynamic> toMap() {

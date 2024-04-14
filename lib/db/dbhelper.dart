@@ -83,6 +83,11 @@ class DbHelper {
     return await db.delete('users', where: 'id = ?', whereArgs: [id]);
   }
 
+  Future<int> updateUserPassword(String actualPass, String pass) async {
+    Database db = await database;
+    return await db.update('users',{'password': pass},  where: 'password = ?', whereArgs: [actualPass]);
+  }
+
   Future<List<Map<String, dynamic>>> getUser(User user) async {
     Database db = await database;
     return await db.query('users',
