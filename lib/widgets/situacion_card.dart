@@ -24,11 +24,19 @@ class SituacionCard extends StatelessWidget {
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(4.0)),
+<<<<<<< HEAD
               child: Image.memory(
                 base64Decode(report.photo.toString()),
                 width: 400,
                 height: 350,
               ),
+=======
+              // child: Image.network(
+              //   situacion.foto, // URL de la imagen
+              //   fit: BoxFit.cover,
+              //   height: 150, // Altura de la imagen
+              // ),
+>>>>>>> origin/main
             ),
             ListTile(
               title: Text(report.title),

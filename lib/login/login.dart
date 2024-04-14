@@ -73,6 +73,7 @@ class _IniciarSesionScreenState extends State<IniciarSesionScreen> {
                   borderRadius: BorderRadius.circular(30.0),
                   borderSide: BorderSide.none,
                 ),
+                
                 hintText: 'Contraseña',
               ),
             ),
@@ -86,6 +87,7 @@ class _IniciarSesionScreenState extends State<IniciarSesionScreen> {
               text: 'Iniciar Sesión',
               color: Color.fromARGB(255, 0, 76, 152),
               textColor: Colors.white,
+              
             ),
             SizedBox(height: 20.0),
             CustomButton(
