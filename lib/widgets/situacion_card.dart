@@ -47,11 +47,11 @@ class SituacionCard extends StatelessWidget {
           children: <Widget>[
             ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(4.0)),
-              child: Image.network(
-                situacion.foto, // URL de la imagen
-                fit: BoxFit.cover,
-                height: 150, // Altura de la imagen
-              ),
+              // child: Image.network(
+              //   situacion.foto, // URL de la imagen
+              //   fit: BoxFit.cover,
+              //   height: 150, // Altura de la imagen
+              // ),
             ),
             ListTile(
               title: Text(situacion.titulo),
