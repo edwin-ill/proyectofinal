@@ -65,6 +65,7 @@ class MyApp extends StatelessWidget {
         '/report_situation': (context) => ReportarSituacionScreen(),
         '/change_password': (context) => CambiarPasswordScreen(),
         '/situaciones': (context) => MapaSituacionesScreen(),
+        '/login': (context) => IniciarSesionScreen(),
       },
     );
   }
@@ -137,6 +138,10 @@ class MainScreen extends StatelessWidget {
               route: '/voluntario',
             ),
             const Divider(),
+            const MenuOption(
+              text: 'Iniciar seccion',
+              route: '/login',
+            ),
             const MenuOption(
               text: 'Acerca de',
               route: '/acerca_de',
