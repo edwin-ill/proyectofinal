@@ -70,8 +70,8 @@ class DbHelper {
 //     return await db.delete('report', where: 'id = ?', whereArgs: [id]);
 //   }
 
-  Future<List<dynamic>> getReports(String token) async {
-    return await ObternerReporte().obtenerReporte(
+  Future<List<Map<String, dynamic>>> getReports(String token) async {
+    return await ObtenerReporte().obtenerReporte(
         'https://adamix.net/defensa_civil/def/situaciones.php',
         {'token': token});
   }

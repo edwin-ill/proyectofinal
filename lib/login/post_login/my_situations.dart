@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:proyectofinal/api/inscripcion.dart';
-import 'package:proyectofinal/api/obtener_reporte.dart';
 import 'package:proyectofinal/db/dbhelper.dart';
 import 'package:proyectofinal/db/report.dart';
 import 'package:proyectofinal/pages/detalles_situacion_screen.dart';
@@ -19,8 +18,9 @@ class _MySituationsState extends State<MySituations> {
   TextEditingController contr = TextEditingController();
   Incripcion? ic;
   List? user;
+  String? token;
 
-  List<dynamic> reports = [];
+  List<Map<String, dynamic>> reports = [];
   bool hasReports = false;
 
   Future<void> deleteReport(int id) async {
@@ -42,6 +42,8 @@ class _MySituationsState extends State<MySituations> {
       if (retrievedReport.isNotEmpty) {
         hasReports = true;
         reports = retrievedReport;
+        cedula.text = '';
+        contr.text = '';
       } else {
         hasReports = false;
       }
@@ -86,47 +88,52 @@ class _MySituationsState extends State<MySituations> {
           ),
           ElevatedButton(
               onPressed: () async => {
-                    reports = await ObternerReporte().obtenerReporte(
-                        'https://adamix.net/defensa_civil/def/situaciones.php',
-                        {'token': await getToken()}),
-                    setState(() {
-                      hasReports = true;
-                    })
+                    // reports = await ObtenerReporte().obtenerReporte(
+                    //     'https://adamix.net/defensa_civil/def/situaciones.php',
+                    //     {'token': await getToken()}),
+                    token = await getToken(),
+                    await getReports(token!),
+                    // setState(() {
+                    //   hasReports = true;
+                    // })
                   },
               child: Text('enviar')),
           Visibility(
             visible: hasReports,
-            child: ListView.builder(
-              itemCount: reports.length,
-              itemBuilder: (context, index) {
-                Map item = reports[index - 1];
-                Report rt = Report(
-                    id: int.parse(item['id']),
-                    title: item['titulo'],
-                    date: item['fecha'],
-                    description: item['descripcion'],
-                    latitude: int.parse(item['latitud']),
-                    longitude: int.parse(item['longitud']),
-                    state: 0,
-                    photo: item['foto'],
-                    feedback: '',
-                    token: '',
-                    contr: '');
-                return SituacionCard(
-                  report: rt,
-                  onTap: () {
-                    // Acción al hacer clic en la tarjeta, por ejemplo, mostrar más detalles
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DetallesSituacionScreen(
-                          report: rt,
+            child: Expanded(
+              child: ListView.builder(
+                itemCount: reports.length,
+                itemBuilder: (context, index) {
+                  // return Text(reports[index].toString());
+                  Map item = reports[index];
+                  Report rt = Report(
+                      id: int.parse(item['id']),
+                      title: item['titulo'],
+                      date: item['fecha'],
+                      description: item['descripcion'],
+                      latitude: int.parse(item['latitud']),
+                      longitude: int.parse(item['longitud']),
+                      state: 0,
+                      photo: item['foto'],
+                      feedback: '',
+                      token: '',
+                      contr: '');
+                  return SituacionCard(
+                    report: rt,
+                    onTap: () {
+                      // Acción al hacer clic en la tarjeta, por ejemplo, mostrar más detalles
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetallesSituacionScreen(
+                            report: rt,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                );
-              },
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ),
         ],
@@ -140,7 +147,7 @@ class ReportManager {
 
   ReportManager({required this.dbHelper});
 
-  Future<List<dynamic>> getReports(String token) async {
+  Future<List<Map<String, dynamic>>> getReports(String token) async {
     return await dbHelper.getReports(token);
   }
 
