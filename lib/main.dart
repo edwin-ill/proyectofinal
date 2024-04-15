@@ -142,6 +142,15 @@ class MainScreen extends StatelessWidget {
               text: 'Iniciar seccion',
               route: '/login',
             ),
+            isLogged
+                ? const MenuOption(
+                    text: 'Cerrar seccion',
+                    route: '/login',
+                  )
+                : const MenuOption(
+                    text: 'Iniciar seccion',
+                    route: '/login',
+                  ),
             const MenuOption(
               text: 'Acerca de',
               route: '/acerca_de',
