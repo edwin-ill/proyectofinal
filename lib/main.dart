@@ -11,6 +11,7 @@ import 'pages/miembros.dart';
 import 'pages/voluntario.dart';
 import 'pages/acerca_de.dart';
 import 'login/login.dart';
+import 'pages/mapa_situaciones.dart';
 
 const MaterialColor miColorPrimario = MaterialColor(0xFFFF6E23, {
   50: Color.fromRGBO(255, 110, 35, 0.1 * 255),
@@ -30,7 +31,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,13 +59,14 @@ class MyApp extends StatelessWidget {
         '/voluntario': (context) => VoluntarioScreen(),
         '/acerca_de': (context) => AcercaDeScreen(),
         '/iniciar_sesion': (context) => IniciarSesionScreen(),
+        '/situaciones': (context) => MapaSituacionesScreen(),
       },
     );
   }
 }
 
 class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -140,6 +142,11 @@ class MainScreen extends StatelessWidget {
               text: 'Iniciar Sesión',
               route: '/iniciar_sesion',
             ),
+            MenuOption(
+              text:
+                  'Situaciones', // Agregado el nuevo enlace al widget Situaciones
+              route: '/situaciones',
+            ),
           ],
         ),
       ),
@@ -155,10 +162,10 @@ class MenuOption extends StatelessWidget {
   final String route;
 
   const MenuOption({
-    super.key,
+    Key? key,
     required this.text,
     required this.route,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
