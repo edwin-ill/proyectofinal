@@ -121,7 +121,7 @@ class _VideosScreenState extends State<VideosScreen> {
                   child: Text(
                     video.contenido,
                     style: const TextStyle(
-                      fontSize: 14,
+                      fontSize: 16,
                     ),
                   ),
                 ),
