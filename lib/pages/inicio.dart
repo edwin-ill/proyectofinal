@@ -11,6 +11,7 @@ class InicioScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         appBar: AppBar(
           title: const Text('Inicio'),
         ),
@@ -63,6 +64,7 @@ class InicioScreen extends StatelessWidget {
                 child: Text('Ir a Pantalla de Cambiar Contraseña'),
               ),
             ],
+
           ),
         ));
   }

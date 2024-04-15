@@ -13,20 +13,38 @@ import 'pages/miembros.dart';
 import 'pages/voluntario.dart';
 import 'pages/acerca_de.dart';
 import 'login/login.dart';
+import 'pages/mapa_situaciones.dart';
+
+const MaterialColor miColorPrimario = MaterialColor(0xFFFF6E23, {
+  50: Color.fromRGBO(255, 110, 35, 0.1 * 255),
+  100: Color.fromRGBO(255, 110, 35, 0.2 * 255),
+  200: Color.fromRGBO(255, 110, 35, 0.3 * 255),
+  300: Color.fromRGBO(255, 110, 35, 0.4 * 255),
+  400: Color.fromRGBO(255, 110, 35, 0.5 * 255),
+  500: Color.fromRGBO(255, 110, 35, 0.6 * 255),
+  600: Color.fromRGBO(255, 110, 35, 0.7 * 255),
+  700: Color.fromRGBO(255, 110, 35, 0.8 * 255),
+  800: Color.fromRGBO(255, 110, 35, 0.9 * 255),
+  900: Color.fromRGBO(255, 110, 35, 1.0 * 255),
+});
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Defensa Civil App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: miColorPrimario,
+        
       ),
       initialRoute: '/iniciar_sesion',
       routes: {
@@ -42,23 +60,28 @@ class MyApp extends StatelessWidget {
         '/voluntario': (context) => VoluntarioScreen(),
         '/acerca_de': (context) => AcercaDeScreen(),
         '/iniciar_sesion': (context) => IniciarSesionScreen(),
+
         '/my_situations': (context) => MySituations(),
         '/report_situation': (context) => ReportarSituacionScreen()
-
+        '/situaciones': (context) => MapaSituacionesScreen(),
       },
     );
   }
 }
 
 class MainScreen extends StatelessWidget {
+
   final bool isLogged;
   const MainScreen({super.key, required this.isLogged});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
-        title: const Text('Menú Principal'),
+        backgroundColor: Color.fromARGB(255, 255, 111, 0),
+        title: const Text('Menú Principal',style: TextStyle(color: Colors.white),),
+        
       ),
       drawer: Drawer(
         child: ListView(
@@ -66,7 +89,7 @@ class MainScreen extends StatelessWidget {
           children: [
             const DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: miColorPrimario,
               ),
               child: Text(
                 'Menú Principal',
@@ -121,6 +144,7 @@ class MainScreen extends StatelessWidget {
               text: 'Acerca de',
               route: '/acerca_de',
             ),
+
             isLogged
                 ? const MenuOption(
                     text: 'Mis Situaciones',
@@ -133,6 +157,17 @@ class MainScreen extends StatelessWidget {
                     route: '/report_situation',
                   )
                 : const ListTile(title: Text('Campo no disponible')),
+
+            MenuOption(
+              text: 'Iniciar Sesión',
+              route: '/iniciar_sesion',
+            ),
+            MenuOption(
+              text:
+                  'Situaciones', // Agregado el nuevo enlace al widget Situaciones
+              route: '/situaciones',
+            ),
+
           ],
         ),
       ),
@@ -148,10 +183,10 @@ class MenuOption extends StatelessWidget {
   final String route;
 
   const MenuOption({
-    super.key,
+    Key? key,
     required this.text,
     required this.route,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
