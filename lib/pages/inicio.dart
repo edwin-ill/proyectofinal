@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:proyectofinal/login/post_login/my_situations.dart';
-
 import 'package:proyectofinal/pages/noticias_screen.dart';
 import 'package:proyectofinal/pages/reportar_situacion_screen.dart';
 import 'package:proyectofinal/pages/cambiar_password_screen.dart';
+import 'package:proyectofinal/login/login.dart';
+
+UserData userData = UserData();
 
 class InicioScreen extends StatelessWidget {
   const InicioScreen({super.key});
@@ -11,7 +13,6 @@ class InicioScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         appBar: AppBar(
           title: const Text('Inicio'),
         ),
@@ -47,7 +48,9 @@ class InicioScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MySituations()),
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            MySituations(token: userData.token)),
                   );
                 },
                 child: Text('Ir a Pantalla de Mis Situaciones'),
@@ -64,7 +67,6 @@ class InicioScreen extends StatelessWidget {
                 child: Text('Ir a Pantalla de Cambiar Contraseña'),
               ),
             ],
-
           ),
         ));
   }

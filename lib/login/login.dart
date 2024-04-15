@@ -1,48 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:proyectofinal/api/inscripcion.dart';
-import 'package:proyectofinal/db/dbhelper.dart';
 import 'package:proyectofinal/main.dart';
 import 'package:proyectofinal/widgets/custom_button.dart';
 import 'package:proyectofinal/widgets/custom_appbar.dart';
 
+class UserData {
+  String token = '';
+}
+
 class IniciarSesionScreen extends StatefulWidget {
-  const IniciarSesionScreen({super.key});
+  const IniciarSesionScreen({Key? key});
 
   @override
   State<IniciarSesionScreen> createState() => _IniciarSesionScreenState();
 }
 
 class _IniciarSesionScreenState extends State<IniciarSesionScreen> {
-  final DbHelper db = DbHelper();
   TextEditingController cedula = TextEditingController();
   TextEditingController contr = TextEditingController();
 
-  bool isLogged = false;
   String text = 'Log in';
-
-  Future<void> verificar(String cedula, String pass) async {
-    Incripcion inc = Incripcion();
-    List user = await inc.enviarIncripcion(
-        'https://adamix.net/defensa_civil/def/iniciar_sesion.php',
-        {'clave': pass, 'cedula': cedula});
-    bool userLogged = user[0];
-
-    if (userLogged) {
-      isLogged = true;
-      if (mounted) {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MainScreen(
-                isLogged: isLogged,
-              ),
-            ));
-      }
-    } else {
-      isLogged = false;
-      text = 'Credenciales incorrectas';
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,12 +72,11 @@ class _IniciarSesionScreenState extends State<IniciarSesionScreen> {
             CustomButton(
               onPressed: () {
                 Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const MainScreen(
-                        isLogged: false,
-                      ),
-                    ));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MainScreen(isLogged: false),
+                  ),
+                );
               },
               text: 'Iniciar como invitado',
               color: Color.fromARGB(255, 0, 76, 152),
@@ -111,5 +87,30 @@ class _IniciarSesionScreenState extends State<IniciarSesionScreen> {
       ),
       backgroundColor: Color.fromARGB(255, 255, 111, 0),
     );
+  }
+
+  Future<void> verificar(String cedula, String pass) async {
+    Incripcion inc = Incripcion();
+    List user = await inc.enviarIncripcion(
+        'https://adamix.net/defensa_civil/def/iniciar_sesion.php',
+        {'clave': pass, 'cedula': cedula});
+    bool userLogged = user[0];
+    String token = user[1];
+
+    if (userLogged) {
+      UserData userData = UserData();
+      userData.token = token;
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MainScreen(isLogged: true),
+        ),
+      );
+    } else {
+      setState(() {
+        text = 'Credenciales incorrectas';
+      });
+    }
   }
 }

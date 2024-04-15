@@ -5,7 +5,10 @@ import 'dart:convert';
 import 'package:latlong2/latlong.dart';
 
 class MapaSituacionesScreen extends StatefulWidget {
-  const MapaSituacionesScreen({Key? key}) : super(key: key);
+  final String token;
+
+  const MapaSituacionesScreen({Key? key, required this.token})
+      : super(key: key);
 
   @override
   _MapaSituacionesScreenState createState() => _MapaSituacionesScreenState();
@@ -13,7 +16,6 @@ class MapaSituacionesScreen extends StatefulWidget {
 
 class _MapaSituacionesScreenState extends State<MapaSituacionesScreen> {
   List<Situacion> _situaciones = [];
-  final String _token = "81e15c1e1f4189d4fc5c0d34650e4cd5";
 
   @override
   void initState() {
@@ -26,7 +28,7 @@ class _MapaSituacionesScreenState extends State<MapaSituacionesScreen> {
       var request = http.MultipartRequest('POST',
           Uri.parse('https://adamix.net/defensa_civil/def/situaciones.php'));
 
-      request.fields.addAll({'token': _token});
+      request.fields.addAll({'token': widget.token});
 
       var response = await request.send();
 

@@ -28,6 +28,7 @@ const MaterialColor miColorPrimario = MaterialColor(0xFFFF6E23, {
   900: Color.fromRGBO(255, 110, 35, 1.0 * 255),
 });
 
+UserData userData = UserData();
 void main() {
   runApp(const MyApp());
 }
@@ -37,14 +38,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Defensa Civil App',
       theme: ThemeData(
         primarySwatch: miColorPrimario,
-        
       ),
       initialRoute: '/iniciar_sesion',
       routes: {
@@ -60,28 +58,28 @@ class MyApp extends StatelessWidget {
         '/voluntario': (context) => VoluntarioScreen(),
         '/acerca_de': (context) => AcercaDeScreen(),
         '/iniciar_sesion': (context) => IniciarSesionScreen(),
-
-        '/my_situations': (context) => MySituations(),
-        '/report_situation': (context) => ReportarSituacionScreen()
-        '/situaciones': (context) => MapaSituacionesScreen(),
+        '/my_situations': (context) => MySituations(token: userData.token),
+        '/report_situation': (context) => ReportarSituacionScreen(),
+        '/situaciones': (context) =>
+            MapaSituacionesScreen(token: userData.token),
       },
     );
   }
 }
 
 class MainScreen extends StatelessWidget {
-
   final bool isLogged;
   const MainScreen({super.key, required this.isLogged});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 255, 111, 0),
-        title: const Text('Menú Principal',style: TextStyle(color: Colors.white),),
-        
+        title: const Text(
+          'Menú Principal',
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       drawer: Drawer(
         child: ListView(
@@ -144,7 +142,6 @@ class MainScreen extends StatelessWidget {
               text: 'Acerca de',
               route: '/acerca_de',
             ),
-
             isLogged
                 ? const MenuOption(
                     text: 'Mis Situaciones',
@@ -157,17 +154,14 @@ class MainScreen extends StatelessWidget {
                     route: '/report_situation',
                   )
                 : const ListTile(title: Text('Campo no disponible')),
-
             MenuOption(
               text: 'Iniciar Sesión',
               route: '/iniciar_sesion',
             ),
             MenuOption(
-              text:
-                  'Situaciones', // Agregado el nuevo enlace al widget Situaciones
+              text: 'Mapa de Situaciones',
               route: '/situaciones',
             ),
-
           ],
         ),
       ),

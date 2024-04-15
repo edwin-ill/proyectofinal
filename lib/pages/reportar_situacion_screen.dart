@@ -148,18 +148,17 @@ class ReportarSituacionScreenState extends State<ReportarSituacionScreen> {
               onPressed: () async {
                 // Aquí puedes agregar la lógica para enviar el reporte
                 late ReportSituation reportSituation = ReportSituation(
-                  id: 0,
-                  title: tituloController.text,
-                  date: DateTime.now().toString(),
-                  description: descripcionController.text,
-                  lat: int.parse(ubicacionControllerLat.text),
-                  long: int.parse(ubicacionControllerLong.text),
-                  photo: image!,
-                  feedback: '',
-                  state: 0,
-                  cedula: cedula.text,
-                  contr: contr.text
-                );
+                    id: 0,
+                    title: tituloController.text,
+                    date: DateTime.now().toString(),
+                    description: descripcionController.text,
+                    lat: int.parse(ubicacionControllerLat.text),
+                    long: int.parse(ubicacionControllerLong.text),
+                    photo: image!,
+                    feedback: '',
+                    state: 0,
+                    cedula: cedula.text,
+                    contr: contr.text);
                 await reportSituation.saveTask();
                 Navigator.pushNamed(context, '/inicio');
               },
