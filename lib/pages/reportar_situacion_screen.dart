@@ -1,18 +1,38 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:proyectofinal/login/post_login/report_situation.dart';
 import 'package:proyectofinal/widgets/custom_appbar.dart';
 import 'package:proyectofinal/widgets/custom_button.dart';
 
 class ReportarSituacionScreen extends StatefulWidget {
   @override
-  _ReportarSituacionScreenState createState() => _ReportarSituacionScreenState();
+  ReportarSituacionScreenState createState() => ReportarSituacionScreenState();
 }
 
-class _ReportarSituacionScreenState extends State<ReportarSituacionScreen> {
+class ReportarSituacionScreenState extends State<ReportarSituacionScreen> {
   TextEditingController tituloController = TextEditingController();
   TextEditingController descripcionController = TextEditingController();
-  TextEditingController ubicacionController = TextEditingController();
+  TextEditingController ubicacionControllerLat = TextEditingController();
+  TextEditingController ubicacionControllerLong = TextEditingController();
 
-  String imagenBase64 = ''; // Variable para almacenar la imagen en formato base64
+  TextEditingController cedula = TextEditingController();
+  TextEditingController contr = TextEditingController();
+
+  File? image;
+  String? image64;
+
+  Future<void> getImage() async {
+    final ImagePicker picker = ImagePicker();
+    XFile? pickedImage = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      image = File(pickedImage.path);
+    }
+  }
+
+  String imagenBase64 =
+      ''; // Variable para almacenar la imagen en formato base64
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +40,9 @@ class _ReportarSituacionScreenState extends State<ReportarSituacionScreen> {
       appBar: CustomAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: ListView(
           children: [
-            Text(
+            const Text(
               'Reportar Situación de Emergencia',
               style: TextStyle(
                 fontSize: 24.0,
@@ -34,12 +53,12 @@ class _ReportarSituacionScreenState extends State<ReportarSituacionScreen> {
             TextFormField(
               controller: tituloController,
               decoration: InputDecoration(
-                      filled: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.0),
-          borderSide: BorderSide.none,
-        ),
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: BorderSide.none,
+                ),
                 labelText: 'Título del evento o situación',
               ),
             ),
@@ -47,52 +66,104 @@ class _ReportarSituacionScreenState extends State<ReportarSituacionScreen> {
             TextFormField(
               controller: descripcionController,
               decoration: InputDecoration(
-                      filled: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.0),
-          borderSide: BorderSide.none,
-        ),
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: BorderSide.none,
+                ),
                 labelText: 'Descripción completa',
               ),
               maxLines: 3,
             ),
             SizedBox(height: 20.0),
-              CustomButton(
-             onPressed: () {
-                //Aquí puedes agregar la lógica para subir una foto y convertirla a base64
-
+            CustomButton(
+              onPressed: () async {
+                await getImage();
               },
               text: 'Subir Foto',
-              color:Color.fromARGB(255, 0, 76, 152),
+              color: Color.fromARGB(255, 0, 76, 152),
               textColor: Color.fromARGB(255, 255, 255, 255),
-            
             ),
             SizedBox(height: 20.0),
             TextFormField(
-              controller: ubicacionController,
+              controller: ubicacionControllerLat,
+              keyboardType: const TextInputType.numberWithOptions(
+                  decimal: false, signed: true),
               decoration: InputDecoration(
-                      filled: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.0),
-          borderSide: BorderSide.none,
-        ),
-                labelText: 'Ubicación geográfica (latitud, longitud)',
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: BorderSide.none,
+                ),
+                labelText: 'Ubicación geográfica (latitud)',
+              ),
+            ),
+            TextFormField(
+              controller: ubicacionControllerLong,
+              keyboardType: const TextInputType.numberWithOptions(
+                  decimal: false, signed: true),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: BorderSide.none,
+                ),
+                labelText: 'Ubicación geográfica (longitud)',
               ),
             ),
             SizedBox(height: 20.0),
+            Divider(),
+            TextFormField(
+              controller: cedula,
+              keyboardType: const TextInputType.numberWithOptions(
+                  decimal: false, signed: true),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: BorderSide.none,
+                ),
+                labelText: 'Cedula',
+              ),
+            ),
+            TextFormField(
+              controller: contr,
+              keyboardType: const TextInputType.numberWithOptions(
+                  decimal: false, signed: true),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: BorderSide.none,
+                ),
+                labelText: 'Contraseña',
+              ),
+            ),
             CustomButton(
-              onPressed: () {
+              onPressed: () async {
                 // Aquí puedes agregar la lógica para enviar el reporte
-               /* String titulo = tituloController.text;
-                String descripcion = descripcionController.text;
-                String ubicacion = ubicacionController.text;*/
-                
-           
+                late ReportSituation reportSituation = ReportSituation(
+                    id: 0,
+                    title: tituloController.text,
+                    date: DateTime.now().toString(),
+                    description: descripcionController.text,
+                    lat: int.parse(ubicacionControllerLat.text),
+                    long: int.parse(ubicacionControllerLong.text),
+                    photo: image!,
+                    feedback: '',
+                    state: 0,
+                    cedula: cedula.text,
+                    contr: contr.text);
+                await reportSituation.saveTask();
+                Navigator.pushNamed(context, '/inicio');
               },
               text: 'Enviar Reporte',
-              color:Color.fromARGB(255, 0, 76, 152),
+              color: Color.fromARGB(255, 0, 76, 152),
               textColor: Color.fromARGB(255, 255, 255, 255),
             ),
           ],

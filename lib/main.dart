@@ -1,5 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:proyectofinal/login/post_login/my_situations.dart';
+import 'package:proyectofinal/pages/reportar_situacion_screen.dart';
 import 'pages/inicio.dart';
 import 'pages/historia.dart';
 import 'pages/servicios.dart';
@@ -12,6 +14,7 @@ import 'pages/miembros.dart';
 import 'pages/voluntario.dart';
 import 'pages/acerca_de.dart';
 import 'login/login.dart';
+import 'pages/mapa_situaciones.dart';
 
 const MaterialColor miColorPrimario = MaterialColor(0xFFFF6E23, {
   50: Color.fromRGBO(255, 110, 35, 0.1 * 255),
@@ -26,12 +29,13 @@ const MaterialColor miColorPrimario = MaterialColor(0xFFFF6E23, {
   900: Color.fromRGBO(255, 110, 35, 1.0 * 255),
 });
 
+UserData userData = UserData();
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +45,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: miColorPrimario,
       ),
-      initialRoute: '/',
+      initialRoute: '/iniciar_sesion',
       routes: {
+        '/inicio': (context) => InicioScreen(),
         '/': (context) => MainScreen(),
         '/historia': (context) => HistoriaScreen(),
         '/servicios': (context) => ServiciosScreen(),
@@ -55,13 +60,18 @@ class MyApp extends StatelessWidget {
         '/voluntario': (context) => VoluntarioScreen(),
         '/acerca_de': (context) => AcercaDeScreen(),
         '/iniciar_sesion': (context) => IniciarSesionScreen(),
+        '/my_situations': (context) => MySituations(token: userData.token),
+        '/report_situation': (context) => ReportarSituacionScreen(),
+        '/situaciones': (context) =>
+            MapaSituacionesScreen(token: userData.token),
       },
     );
   }
 }
 
 class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
+  final bool isLogged;
+  const MainScreen({super.key, required this.isLogged});
 
   @override
   Widget build(BuildContext context) {
@@ -76,8 +86,8 @@ class MainScreen extends StatelessWidget {
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
-          children: const [
-            DrawerHeader(
+          children: [
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: miColorPrimario,
               ),
@@ -89,50 +99,67 @@ class MainScreen extends StatelessWidget {
                 ),
               ),
             ),
+            
             MenuOption(
               text: 'Historia',
               route: '/historia',
             ),
-            MenuOption(
+            const MenuOption(
               text: 'Servicios',
               route: '/servicios',
             ),
-            MenuOption(
+            const MenuOption(
               text: 'Noticias',
               route: '/noticias',
             ),
-            MenuOption(
+            const MenuOption(
               text: 'Videos',
               route: '/videos',
             ),
-            MenuOption(
+            const MenuOption(
               text: 'Albergues',
               route: '/albergues',
             ),
-            MenuOption(
+            const MenuOption(
               text: 'Mapa de Albergues',
               route: '/mapa_albergues',
             ),
-            MenuOption(
+            const MenuOption(
               text: 'Medidas Preventivas',
               route: '/medidas_preventivas',
             ),
-            MenuOption(
+            const MenuOption(
               text: 'Miembros',
               route: '/miembros',
             ),
-            MenuOption(
+            const MenuOption(
               text: 'Quiero ser Voluntario',
               route: '/voluntario',
             ),
-            Divider(),
-            MenuOption(
+            const Divider(),
+            const MenuOption(
               text: 'Acerca de',
               route: '/acerca_de',
             ),
+            isLogged
+                ? const MenuOption(
+                    text: 'Mis Situaciones',
+                    route: '/my_situations',
+                  )
+                : const ListTile(title: Text('Campo no disponible')),
+            isLogged
+                ? const MenuOption(
+                    text: 'Reportar Situación',
+                    route: '/report_situation',
+                  )
+                : const ListTile(title: Text('Campo no disponible')),
             MenuOption(
               text: 'Iniciar Sesión',
               route: '/iniciar_sesion',
+            ),
+            MenuOption(
+              text: 'Mapa de Situaciones',
+              route: '/situaciones',
             ),
           ],
         ),
@@ -252,10 +279,10 @@ class MenuOption extends StatelessWidget {
   final String route;
 
   const MenuOption({
-    super.key,
+    Key? key,
     required this.text,
     required this.route,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
