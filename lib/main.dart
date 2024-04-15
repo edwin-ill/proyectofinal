@@ -138,10 +138,6 @@ class MainScreen extends StatelessWidget {
               route: '/voluntario',
             ),
             const Divider(),
-            const MenuOption(
-              text: 'Iniciar seccion',
-              route: '/login',
-            ),
             isLogged
                 ? const MenuOption(
                     text: 'Cerrar seccion',
