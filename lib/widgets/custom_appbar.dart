@@ -8,7 +8,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Color.fromARGB(255, 255, 111, 0),
-      title: Text('Defensa Civil RD'),
+      title: Text('Defensa Civil RD', style: TextStyle(color: Colors.white),),
     );
   }
 }
