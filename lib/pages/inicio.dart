@@ -12,7 +12,8 @@ class InicioScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Inicio'),
+        title: const Text('Inicio',style: TextStyle(color: Colors.white),),
+        backgroundColor: Color.fromARGB(255, 255, 111, 0)
       ),
       body: Padding(
       padding: EdgeInsets.all(20.0),

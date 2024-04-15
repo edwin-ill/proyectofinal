@@ -7,10 +7,10 @@ class VoluntarioScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Voluntario'),
-      ),
+          title: const Text('Voluntario'),
+          backgroundColor: Color.fromARGB(255, 255, 111, 0)),
       body: const Center(
-        child: Text('Contenido de la pantalla de Voluntario'),
+        child: Text('Contenido de la pantalla de Voluntario', style: TextStyle(color: Colors.white),),
       ),
     );
   }

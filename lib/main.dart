@@ -12,6 +12,19 @@ import 'pages/voluntario.dart';
 import 'pages/acerca_de.dart';
 import 'login/login.dart';
 
+const MaterialColor miColorPrimario = MaterialColor(0xFFFF6E23, {
+  50: Color.fromRGBO(255, 110, 35, 0.1 * 255),
+  100: Color.fromRGBO(255, 110, 35, 0.2 * 255),
+  200: Color.fromRGBO(255, 110, 35, 0.3 * 255),
+  300: Color.fromRGBO(255, 110, 35, 0.4 * 255),
+  400: Color.fromRGBO(255, 110, 35, 0.5 * 255),
+  500: Color.fromRGBO(255, 110, 35, 0.6 * 255),
+  600: Color.fromRGBO(255, 110, 35, 0.7 * 255),
+  700: Color.fromRGBO(255, 110, 35, 0.8 * 255),
+  800: Color.fromRGBO(255, 110, 35, 0.9 * 255),
+  900: Color.fromRGBO(255, 110, 35, 1.0 * 255),
+});
+
 void main() {
   runApp(const MyApp());
 }
@@ -21,10 +34,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     return MaterialApp(
       title: 'Defensa Civil App',
+      
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: miColorPrimario,
+        
       ),
       initialRoute: '/',
       routes: {
@@ -53,7 +70,9 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Menú Principal'),
+        backgroundColor: Color.fromARGB(255, 255, 111, 0),
+        title: const Text('Menú Principal',style: TextStyle(color: Colors.white),),
+        
       ),
       drawer: Drawer(
         child: ListView(
@@ -61,7 +80,7 @@ class MainScreen extends StatelessWidget {
           children: const [
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: miColorPrimario,
               ),
               child: Text(
                 'Menú Principal',
