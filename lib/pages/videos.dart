@@ -12,8 +12,6 @@ class VideosScreen extends StatefulWidget {
   State<VideosScreen> createState() => _VideosScreenState();
 }
 
-
-
 class _VideosScreenState extends State<VideosScreen> {
   late Future<List<Videos>> galeria;
   Future<List<Videos>> _getGaleria() async {
@@ -37,7 +35,6 @@ class _VideosScreenState extends State<VideosScreen> {
     }
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -48,8 +45,8 @@ class _VideosScreenState extends State<VideosScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Videos'),
-        ),
+            title: const Text('Videos',style: TextStyle(color: Colors.white),),
+            backgroundColor: Color.fromARGB(255, 255, 111, 0)),
         body: FutureBuilder(
           future: galeria,
           builder: (context, snapshot) {
@@ -67,8 +64,6 @@ class _VideosScreenState extends State<VideosScreen> {
   }
 
   List<Widget> galeriaVideos(videos) {
-
-
     List<Widget> listVideos = [];
     for (var video in videos) {
       listVideos.add(
@@ -76,42 +71,58 @@ class _VideosScreenState extends State<VideosScreen> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Widget para mostrar la imagen
-                SizedBox(
-                  height: 200,
-                  child: YoutubePlayer(
-                    controller: YoutubePlayerController(
-                      initialVideoId: video.link,
-                      flags: YoutubePlayerFlags(
-                        autoPlay: false,
-                        mute: false,
+                Container(
+                  margin: EdgeInsets.only(bottom: 30),
+                  child: SizedBox(
+                    height: 200,
+                    child: YoutubePlayer(
+                      controller: YoutubePlayerController(
+                        initialVideoId: video.link,
+                        flags: YoutubePlayerFlags(
+                          autoPlay: false,
+                          mute: false,
+                        ),
                       ),
+                      showVideoProgressIndicator: true,
+                      progressIndicatorColor: Colors.blueAccent,
                     ),
-                    showVideoProgressIndicator: true,
-                    progressIndicatorColor: Colors.blueAccent,
                   ),
                 ),
 
                 // Widget para mostrar el nombre del servicio
-                Text(
-                  video.titulo,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    video.titulo,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF004C98),
+                      fontSize: 20,
+                    ),
                   ),
                 ),
-                Text(
-                  video.fecha,
-                  style: const TextStyle(
-                    fontSize: 12,
+                Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    "Fecha: ${video.fecha}",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 230, 108, 21),
+                      fontSize: 14,
+                    ),
                   ),
                 ),
                 // Widget para mostrar la descripción del servicio
-                Text(
-                  video.contenido,
-                  style: const TextStyle(
-                    fontSize: 14,
+                Container(
+                  margin: EdgeInsets.only(bottom: 30),
+                  child: Text(
+                    video.contenido,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
                   ),
                 ),
               ],

@@ -12,7 +12,7 @@ class NoticiasScreen extends StatefulWidget {
 }
 
 class _NoticiasScreenState extends State<NoticiasScreen> {
-  late Future <List<Noticias>> listNoticias;
+  late Future<List<Noticias>> listNoticias;
   Future<List<Noticias>> _getNoticias() async {
     final response = await http
         .get(Uri.parse('https://adamix.net/defensa_civil/def/noticias.php'));
@@ -23,9 +23,11 @@ class _NoticiasScreenState extends State<NoticiasScreen> {
       final jsonData = jsonDecode(body);
       for (var noticia in jsonData["datos"]) {
         print(noticia["fecha"]);
-        noticias.add(Noticias(noticia["titulo"], noticia["fecha"], noticia["contenido"], noticia["foto"]),);
+        noticias.add(
+          Noticias(noticia["titulo"], noticia["fecha"], noticia["contenido"],
+              noticia["foto"]),
+        );
         print(noticia[1]);
-            
       }
       return noticias;
     } else {
@@ -45,8 +47,11 @@ class _NoticiasScreenState extends State<NoticiasScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Noticias'),
-      ),
+          title: const Text(
+            'Noticias',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color.fromARGB(255, 255, 111, 0)),
       body: FutureBuilder(
         future: listNoticias,
         builder: (context, snapshot) {
@@ -72,29 +77,46 @@ class _NoticiasScreenState extends State<NoticiasScreen> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Widget para mostrar la imagen
-                Image.network(noticia.foto),
+                Container(
+                    margin: EdgeInsets.only(bottom: 40),
+                    child: Image.network(noticia.foto)),
 
                 // Widget para mostrar el nombre del servicio
-                Text(
-                  noticia.titulo,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
+
+                
+                Container(
+               margin: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    noticia.titulo,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF004C98),
+                      fontSize: 16,
+                    ),
                   ),
                 ),
-                Text(
-                  noticia.fecha,
-                  style: const TextStyle(
-                    fontSize: 12,
+                Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    "Fecha: ${noticia.fecha}",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 230, 108, 21),
+                      fontSize: 12,
+                    ),
                   ),
                 ),
                 // Widget para mostrar la descripción del servicio
-                Text(
-                  noticia.contenido,
-                  style: const TextStyle(
-                    fontSize: 14,
+                Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    noticia.contenido,
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
                   ),
                 ),
               ],
