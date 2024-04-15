@@ -96,26 +96,37 @@ class _MySituationsState extends State<MySituations> {
               child: Text('enviar')),
           Visibility(
             visible: hasReports,
-            child: SizedBox(
-              child: ListView.builder(
-                itemCount: reports.length,
-                itemBuilder: (context, index) {
-                  return SituacionCard(
-                    report: Report.fromMap(reports[index - 1]),
-                    onTap: () {
-                      // Acción al hacer clic en la tarjeta, por ejemplo, mostrar más detalles
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetallesSituacionScreen(
-                            report: Report.fromMap(reports[index - 1]),
-                          ),
+            child: ListView.builder(
+              itemCount: reports.length,
+              itemBuilder: (context, index) {
+                Map item = reports[index - 1];
+                Report rt = Report(
+                    id: int.parse(item['id']),
+                    title: item['titulo'],
+                    date: item['fecha'],
+                    description: item['descripcion'],
+                    latitude: int.parse(item['latitud']),
+                    longitude: int.parse(item['longitud']),
+                    state: 0,
+                    photo: item['foto'],
+                    feedback: '',
+                    token: '',
+                    contr: '');
+                return SituacionCard(
+                  report: rt,
+                  onTap: () {
+                    // Acción al hacer clic en la tarjeta, por ejemplo, mostrar más detalles
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetallesSituacionScreen(
+                          report: rt,
                         ),
-                      );
-                    },
-                  );
-                },
-              ),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
           ),
         ],
