@@ -17,6 +17,9 @@ class ReportarSituacionScreenState extends State<ReportarSituacionScreen> {
   TextEditingController ubicacionControllerLat = TextEditingController();
   TextEditingController ubicacionControllerLong = TextEditingController();
 
+  TextEditingController cedula = TextEditingController();
+  TextEditingController contr = TextEditingController();
+
   File? image;
   String? image64;
 
@@ -37,8 +40,7 @@ class ReportarSituacionScreenState extends State<ReportarSituacionScreen> {
       appBar: CustomAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: ListView(
           children: [
             const Text(
               'Reportar Situación de Emergencia',
@@ -113,6 +115,35 @@ class ReportarSituacionScreenState extends State<ReportarSituacionScreen> {
               ),
             ),
             SizedBox(height: 20.0),
+            Divider(),
+            TextFormField(
+              controller: cedula,
+              keyboardType: const TextInputType.numberWithOptions(
+                  decimal: false, signed: true),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: BorderSide.none,
+                ),
+                labelText: 'Cedula',
+              ),
+            ),
+            TextFormField(
+              controller: contr,
+              keyboardType: const TextInputType.numberWithOptions(
+                  decimal: false, signed: true),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: BorderSide.none,
+                ),
+                labelText: 'Contraseña',
+              ),
+            ),
             CustomButton(
               onPressed: () async {
                 // Aquí puedes agregar la lógica para enviar el reporte
@@ -126,6 +157,8 @@ class ReportarSituacionScreenState extends State<ReportarSituacionScreen> {
                   photo: image!,
                   feedback: '',
                   state: 0,
+                  cedula: cedula.text,
+                  contr: contr.text
                 );
                 await reportSituation.saveTask();
                 Navigator.pushNamed(context, '/inicio');

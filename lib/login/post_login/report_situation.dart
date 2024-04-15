@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:proyectofinal/api/inscripcion.dart';
 import 'package:proyectofinal/db/dbhelper.dart';
 import 'package:proyectofinal/db/report.dart';
 
@@ -15,6 +16,8 @@ class ReportSituation {
   final int long;
   final int state;
   final String feedback;
+  final String cedula;
+  final String contr;
 
   ReportSituation(
       {required this.id,
@@ -25,7 +28,9 @@ class ReportSituation {
       required this.lat,
       required this.long,
       required this.state,
-      required this.feedback});
+      required this.feedback,
+      required this.contr,
+      required this.cedula});
 
   DbHelper dbHelper = DbHelper();
 
@@ -52,6 +57,12 @@ class ReportSituation {
   // }
 
   Future<void> saveTask() async {
+    Incripcion ic = Incripcion();
+    List user = await ic.enviarIncripcion(
+        'https://adamix.net/defensa_civil/def/iniciar_sesion.php',
+        {'clave': contr, 'cedula': cedula});
+
+    String token = user[1];
     String? image64 = await convertImageToBase64();
     await dbHelper.insertReport(Report(
         id: id,
@@ -62,7 +73,9 @@ class ReportSituation {
         latitude: lat,
         longitude: long,
         state: state,
-        photo: image64!));
+        photo: image64!,
+        token: token,
+        contr: contr));
   }
 }
 

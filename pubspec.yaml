@@ -13,13 +13,10 @@ dependencies:
   sqflite: ^2.3.2
   path: ^1.9.0
   http: ^1.2.1
-<<<<<<< HEAD
   image_picker: ^1.0.7
 
-=======
   youtube_player_flutter: ^9.0.1
   
->>>>>>> origin/main
 dev_dependencies:
   flutter_test:
     sdk: flutter

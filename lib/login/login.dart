@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:proyectofinal/api/inscripcion.dart';
 import 'package:proyectofinal/db/dbhelper.dart';
-import 'package:proyectofinal/db/user.dart';
 import 'package:proyectofinal/main.dart';
 import 'package:proyectofinal/widgets/custom_button.dart';
 import 'package:proyectofinal/widgets/custom_appbar.dart';
 
 class IniciarSesionScreen extends StatefulWidget {
-  IniciarSesionScreen({super.key});
+  const IniciarSesionScreen({super.key});
 
   @override
   State<IniciarSesionScreen> createState() => _IniciarSesionScreenState();
@@ -14,18 +14,22 @@ class IniciarSesionScreen extends StatefulWidget {
 
 class _IniciarSesionScreenState extends State<IniciarSesionScreen> {
   final DbHelper db = DbHelper();
-  TextEditingController name = TextEditingController();
+  TextEditingController cedula = TextEditingController();
   TextEditingController contr = TextEditingController();
 
   bool isLogged = false;
   String text = 'Log in';
 
-  Future<void> verificar(String name, String pass) async {
-    List returnedUser =
-        await db.getUser(User(id: 0, name: name, password: pass));
-    setState(() {
-      if (returnedUser.isNotEmpty) {
-        isLogged = true;
+  Future<void> verificar(String cedula, String pass) async {
+    Incripcion inc = Incripcion();
+    List user = await inc.enviarIncripcion(
+        'https://adamix.net/defensa_civil/def/iniciar_sesion.php',
+        {'clave': pass, 'cedula': cedula});
+    bool userLogged = user[0];
+
+    if (userLogged) {
+      isLogged = true;
+      if (mounted) {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -33,11 +37,11 @@ class _IniciarSesionScreenState extends State<IniciarSesionScreen> {
                 isLogged: isLogged,
               ),
             ));
-      } else {
-        isLogged = false;
-        text = 'Credenciales incorrectas';
       }
-    });
+    } else {
+      isLogged = false;
+      text = 'Credenciales incorrectas';
+    }
   }
 
   @override
@@ -51,7 +55,7 @@ class _IniciarSesionScreenState extends State<IniciarSesionScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextField(
-              controller: name,
+              controller: cedula,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -59,7 +63,7 @@ class _IniciarSesionScreenState extends State<IniciarSesionScreen> {
                   borderRadius: BorderRadius.circular(30.0),
                   borderSide: BorderSide.none,
                 ),
-                hintText: 'Nombre de Usuario',
+                hintText: 'Cedula de Usuario',
               ),
             ),
             SizedBox(height: 20.0),
@@ -73,21 +77,19 @@ class _IniciarSesionScreenState extends State<IniciarSesionScreen> {
                   borderRadius: BorderRadius.circular(30.0),
                   borderSide: BorderSide.none,
                 ),
-                
                 hintText: 'Contraseña',
               ),
             ),
             SizedBox(height: 20.0),
             CustomButton(
-              onPressed: () async{
-                if(name.text != '' && contr.text != ''){
-                await verificar(name.text, contr.text);
+              onPressed: () async {
+                if (cedula.text != '' && contr.text != '') {
+                  await verificar(cedula.text, contr.text);
                 }
               },
               text: 'Iniciar Sesión',
               color: Color.fromARGB(255, 0, 76, 152),
               textColor: Colors.white,
-              
             ),
             SizedBox(height: 20.0),
             CustomButton(

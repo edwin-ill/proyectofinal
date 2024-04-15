@@ -74,7 +74,8 @@ class CambiarPasswordScreen extends StatelessWidget {
             CustomButton(
               onPressed: () async{
                 if (newContr.text == newContr2.text) {
-                  await db.updateUserPassword(actualContr.text ,newContr.text);
+                  //! averiguar despues
+                  // await db.updateUserPassword(actualContr.text ,newContr.text);
                 }
               },
               text: 'Cambiar Contraseña',

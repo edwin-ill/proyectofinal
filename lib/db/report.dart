@@ -9,6 +9,8 @@ class Report {
   int state;
   String photo;
   String feedback;
+  String token;
+  String contr;
 
   Report(
       {required this.id,
@@ -19,21 +21,26 @@ class Report {
       required this.longitude,
       required this.state,
       required this.photo,
-      required this.feedback});
+      required this.feedback,
+      required this.token,
+      required this.contr});
 
   factory Report.fromMap(Map<String, dynamic> eventoMap) {
     return Report(
-        title: eventoMap['title'],
-        description: eventoMap['description'],
-        latitude: eventoMap['latitude'],
-        longitude: eventoMap['longitude'],
-        photo: eventoMap['photo'],
-        date: eventoMap['date'],
-        feedback: eventoMap['feedback'],
+        title: eventoMap['titulo'],
+        description: eventoMap['descripcion'],
+        latitude: eventoMap['latitud'],
+        longitude: eventoMap['longitud'],
+        photo: eventoMap['foto'],
+        date: eventoMap['fecha'],
+        feedback: '',
         id: eventoMap['id'],
-        state: eventoMap['state']);
+        state: eventoMap['estado'],
+        token: '',
+        contr: '');
   }
 
+//! quien use to map estar atento
   Map<String, dynamic> toMap() {
     return {
       'title': title,
@@ -44,6 +51,18 @@ class Report {
       'date': date,
       'feedback': feedback,
       'state': state,
+    };
+  }
+
+  Map<String, String> toMapForApi() {
+    return {
+      'titulo': title,
+      'descripcion': description,
+      'latitud': latitude.toString(),
+      'longitud': longitude.toString(),
+      'foto': photo,
+      'clave': contr,
+      'token': token
     };
   }
 }
