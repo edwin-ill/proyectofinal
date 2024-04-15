@@ -37,8 +37,8 @@ class MyApp extends StatelessWidget {
 
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Defensa Civil App',
-      
       theme: ThemeData(
         primarySwatch: miColorPrimario,
         
@@ -69,6 +69,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 255, 111, 0),
         title: const Text('Menú Principal',style: TextStyle(color: Colors.white),),
